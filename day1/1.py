@@ -7,97 +7,88 @@ input = Path("input.txt").read_text()
 
 
 def part1(l):
-    first = 0
-    for c in l:
-        if c.isdigit():
-            first = int(c)
-            break
-    last = 0
-    for c in list(reversed(l)):
-        if c.isdigit():
-            last = int(c)
-            break
+    first = int(next(filter(lambda c: c.isdigit(), l)))
+    last = int(next(filter(lambda c: c.isdigit(), reversed(l))))
     return (first, last)
 
 
 def part2(l):
     first = 0
     for i in range(0, len(l)):
-        if l[i].isdigit():
-            first = int(l[i])
+        remaining = l[i:]
+        if remaining[0].isdigit():
+            first = int(remaining[0])
             break
-        elif l[i:].startswith("one"):
+        elif remaining.startswith("one"):
             first = 1
             break
-        elif l[i:].startswith("two"):
+        elif remaining.startswith("two"):
             first = 2
             break
-        elif l[i:].startswith("three"):
+        elif remaining.startswith("three"):
             first = 3
             break
-        elif l[i:].startswith("four"):
+        elif remaining.startswith("four"):
             first = 4
             break
-        elif l[i:].startswith("five"):
+        elif remaining.startswith("five"):
             first = 5
             break
-        elif l[i:].startswith("six"):
+        elif remaining.startswith("six"):
             first = 6
             break
-        elif l[i:].startswith("seven"):
+        elif remaining.startswith("seven"):
             first = 7
             break
-        elif l[i:].startswith("eight"):
+        elif remaining.startswith("eight"):
             first = 8
             break
-        elif l[i:].startswith("nine"):
+        elif remaining.startswith("nine"):
             first = 9
             break
 
     last = 0
-    for i in reversed(range(0, len(l))):
-        if l[i].isdigit():
-            last = int(l[i])
+    reversed_l = l[::-1]
+    for i in range(0, len(l)):
+        remaining = reversed_l[i:]
+        if remaining[0].isdigit():
+            last = int(remaining[0])
             break
-        elif l[: i + 1][::-1].startswith("eno"):
+        elif remaining.startswith("eno"):
             last = 1
             break
-        elif l[: i + 1][::-1].startswith("owt"):
+        elif remaining.startswith("owt"):
             last = 2
             break
-        elif l[: i + 1][::-1].startswith("eerht"):
+        elif remaining.startswith("eerht"):
             last = 3
             break
-        elif l[: i + 1][::-1].startswith("ruof"):
+        elif remaining.startswith("ruof"):
             last = 4
             break
-        elif l[: i + 1][::-1].startswith("evif"):
+        elif remaining.startswith("evif"):
             last = 5
             break
-        elif l[: i + 1][::-1].startswith("xis"):
+        elif remaining.startswith("xis"):
             last = 6
             break
-        elif l[: i + 1][::-1].startswith("neves"):
+        elif remaining.startswith("neves"):
             last = 7
             break
-        elif l[: i + 1][::-1].startswith("thgie"):
+        elif remaining.startswith("thgie"):
             last = 8
             break
-        elif l[: i + 1][::-1].startswith("enin"):
+        elif remaining.startswith("enin"):
             last = 9
             break
 
     return (first, last)
 
 
-def run(f):
-    lfs = map(lambda l: f(l), input.splitlines())
-
-    sum = 0
-    for lf in list(lfs):
-        n = lf[0] * 10 + lf[-1]
-        sum += n
-    return sum
+def run(fun):
+    lines = map(lambda l: fun(l), input.splitlines())
+    lines = map(lambda fl: fl[0] * 10 + fl[1], lines)
+    return sum(lines)
 
 
 print(f"part1: {run(part1)}")
